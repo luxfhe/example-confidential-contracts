@@ -3,7 +3,7 @@
 pragma solidity ^0.8.25;
 
 import { IERC20Errors } from "@openzeppelin/contracts/interfaces/draft-IERC6093.sol";
-import { euint64 } from "@fhenixprotocol/cofhe-contracts/FHE.sol";
+import { euint64 } from "@luxfhe/cofhe-contracts/FHE.sol";
 
 /**
  * @dev Standard FHERC-20 Errors

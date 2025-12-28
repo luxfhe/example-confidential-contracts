@@ -3,7 +3,7 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@fhenixprotocol/cofhe-contracts/FHE.sol";
+import "@luxfhe/cofhe-contracts/FHE.sol";
 import { FHERC20 } from "../FHERC20.sol";
 import { IFHERC20 } from "../interfaces/IFHERC20.sol";
 import { FHESafeMath } from "../utils/FHESafeMath.sol";

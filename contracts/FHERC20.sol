@@ -11,7 +11,7 @@ import { Context } from "@openzeppelin/contracts/utils/Context.sol";
 import { IFHERC20 } from "./interfaces/IFHERC20.sol";
 import { FHERC20Utils } from "./utils/FHERC20Utils.sol";
 import { IFHERC20Errors } from "./interfaces/IFHERC20Errors.sol";
-import { FHE, Utils, euint64, InEuint64, ebool } from "@fhenixprotocol/cofhe-contracts/FHE.sol";
+import { FHE, Utils, euint64, InEuint64, ebool } from "@luxfhe/cofhe-contracts/FHE.sol";
 
 /**
  * @dev Implementation of the {IERC20} interface.
