@@ -2,7 +2,7 @@
 // OpenZeppelin Confidential Contracts (last updated v0.2.0) (token/utils/ConfidentialFungibleTokenUtils.sol)
 pragma solidity ^0.8.25;
 
-import { euint64, ebool, FHE } from "@fhenixprotocol/cofhe-contracts/FHE.sol";
+import { euint64, ebool, FHE } from "@luxfhe/cofhe-contracts/FHE.sol";
 
 import { IFHERC20Receiver } from "../interfaces/IFHERC20Receiver.sol";
 import { IFHERC20Errors } from "../interfaces/IFHERC20Errors.sol";

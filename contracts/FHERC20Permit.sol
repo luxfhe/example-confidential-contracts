@@ -8,7 +8,7 @@ import { Nonces } from "@openzeppelin/contracts/utils/Nonces.sol";
 import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import { IFHERC20, FHERC20 } from "./FHERC20.sol";
 import { IFHERC20Errors } from "./interfaces/IFHERC20Errors.sol";
-import { FHE, Utils, euint64, InEuint64 } from "@fhenixprotocol/cofhe-contracts/FHE.sol";
+import { FHE, Utils, euint64, InEuint64 } from "@luxfhe/cofhe-contracts/FHE.sol";
 
 /**
  * @dev Implementation of the FHERC-20 Permit extension allowing operators  to be made via signatures, as defined in

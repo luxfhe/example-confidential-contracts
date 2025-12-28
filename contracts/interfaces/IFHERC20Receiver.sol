@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.25;
 
-import { ebool, euint64 } from "@fhenixprotocol/cofhe-contracts/FHE.sol";
+import { ebool, euint64 } from "@luxfhe/cofhe-contracts/FHE.sol";
 
 interface IFHERC20Receiver {
     /**

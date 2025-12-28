@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.25;
 
-import { FHE, InEuint64, euint64 } from "@fhenixprotocol/cofhe-contracts/FHE.sol";
+import { FHE, InEuint64, euint64 } from "@luxfhe/cofhe-contracts/FHE.sol";
 import { IFHERC20 } from "../interfaces/IFHERC20.sol";
 import { FHERC20Wrapper } from "../FHERC20Wrapper.sol";
 

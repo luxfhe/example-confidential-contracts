@@ -1,5 +1,5 @@
 {
-  "name": "fhenix-confidential-contracts",
+  "name": "luxfhe-confidential-contracts",
   "version": "0.0.1",
   "scripts": {
     "check-types": "tsc --noEmit --incremental",
@@ -24,8 +24,8 @@
   "devDependencies": {
     "@ethersproject/abi": "~5.7.0",
     "@ethersproject/providers": "~5.7.2",
-    "@fhenixprotocol/cofhe-contracts": "0.0.13",
-    "@fhenixprotocol/cofhe-mock-contracts": "^0.3.1",
+    "@luxfhe/cofhe-contracts": "0.0.13",
+    "@luxfhe/cofhe-mock-contracts": "^0.3.1",
     "@nomicfoundation/hardhat-chai-matchers": "~2.0.7",
     "@nomicfoundation/hardhat-ethers": "~3.0.8",
     "@nomicfoundation/hardhat-ignition": "^0.15.11",

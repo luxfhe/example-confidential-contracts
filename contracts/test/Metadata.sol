@@ -2,7 +2,7 @@
 // OpenZeppelin Contracts (last updated v5.1.0) (token/ERC20/ERC20.sol)
 
 pragma solidity ^0.8.25;
-import "@fhenixprotocol/cofhe-contracts/FHE.sol";
+import "@luxfhe/cofhe-contracts/FHE.sol";
 
 contract Metadata {
     mapping(uint256 => uint256) public metaMap;
