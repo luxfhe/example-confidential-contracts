@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import hre from "hardhat";
-import { cofhejs, Encryptable } from "cofhejs/node";
+import { fhe, Encryptable } from "@luxfhe/sdk/node";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { generateTransferFromPermit } from "./utils";
 import { FHERC20Permit_Harness } from "../typechain-types";
@@ -15,7 +15,7 @@ describe("FHERC20Permit", function () {
     await XFHE.waitForDeployment();
 
     // Initialize CoFHE
-    await hre.cofhe.initializeWithHardhatSigner(owner);
+    await hre.fhe.initializeWithHardhatSigner(owner);
 
     return { XFHE, owner, bob, alice, eve };
   };
@@ -132,8 +132,8 @@ describe("FHERC20Permit", function () {
 
       // Alice should be able to transfer from bob
       const transferValue = ethers.parseEther("1");
-      const encTransferResult = await cofhejs.encrypt([Encryptable.uint64(transferValue)] as const);
-      const [encTransferInput] = await hre.cofhe.expectResultSuccess(encTransferResult);
+      const encTransferResult = await fhe.encrypt([Encryptable.uint64(transferValue)] as const);
+      const [encTransferInput] = await hre.fhe.expectResultSuccess(encTransferResult);
 
       await expect(
         XFHE.connect(alice)["confidentialTransferFrom(address,address,(uint256,uint8,uint8,bytes))"](

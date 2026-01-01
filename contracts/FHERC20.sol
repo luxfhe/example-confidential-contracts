@@ -11,7 +11,7 @@ import { Context } from "@openzeppelin/contracts/utils/Context.sol";
 import { IFHERC20 } from "./interfaces/IFHERC20.sol";
 import { FHERC20Utils } from "./utils/FHERC20Utils.sol";
 import { IFHERC20Errors } from "./interfaces/IFHERC20Errors.sol";
-import { FHE, Utils, euint64, InEuint64, ebool } from "@luxfhe/cofhe-contracts/FHE.sol";
+import { FHE, Utils, euint64, Euint64, ebool } from "@luxfi/contracts/fhe/FHE.sol";
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -32,7 +32,7 @@ import { FHE, Utils, euint64, InEuint64, ebool } from "@luxfhe/cofhe-contracts/F
  * applications.
  *
  * Note: This FHERC20 does not include FHE operations, and is intended to decouple the
- * frontend work from the active CoFHE (FHE Coprocessor) work during development and auditing.
+ * frontend work from the active LuxFHE (FHE Coprocessor) work during development and auditing.
  */
 abstract contract FHERC20 is IFHERC20, IFHERC20Errors, Context {
     // NOTE: `indicatedBalances` are intended to indicate movement and change
@@ -243,9 +243,9 @@ abstract contract FHERC20 is IFHERC20, IFHERC20Errors, Context {
      *
      * - `to` cannot be the zero address.
      * - the caller must have a balance of at least `value`.
-     * - `inValue` must be a `InEuint64` to preserve confidentiality.
+     * - `inValue` must be a `Euint64` to preserve confidentiality.
      */
-    function confidentialTransfer(address to, InEuint64 memory inValue) public virtual returns (euint64 transferred) {
+    function confidentialTransfer(address to, Euint64 memory inValue) public virtual returns (euint64 transferred) {
         euint64 value = FHE.asEuint64(inValue);
         transferred = _transfer(msg.sender, to, value);
     }
@@ -260,7 +260,7 @@ abstract contract FHERC20 is IFHERC20, IFHERC20Errors, Context {
     function confidentialTransferFrom(
         address from,
         address to,
-        InEuint64 memory inValue
+        Euint64 memory inValue
     ) public virtual returns (euint64 transferred) {
         if (!isOperator(from, msg.sender)) {
             revert FHERC20UnauthorizedSpender(from, msg.sender);
@@ -286,7 +286,7 @@ abstract contract FHERC20 is IFHERC20, IFHERC20Errors, Context {
 
     function confidentialTransferAndCall(
         address to,
-        InEuint64 memory inValue,
+        Euint64 memory inValue,
         bytes calldata data
     ) public virtual returns (euint64 transferred) {
         euint64 value = FHE.asEuint64(inValue);
@@ -307,7 +307,7 @@ abstract contract FHERC20 is IFHERC20, IFHERC20Errors, Context {
     function confidentialTransferFromAndCall(
         address from,
         address to,
-        InEuint64 memory inValue,
+        Euint64 memory inValue,
         bytes calldata data
     ) public virtual returns (euint64 transferred) {
         if (!isOperator(from, msg.sender)) {
@@ -421,7 +421,7 @@ abstract contract FHERC20 is IFHERC20, IFHERC20Errors, Context {
             _indicatedBalances[to] = _incrementIndicator(_indicatedBalances[to]);
         }
 
-        // Update CoFHE Access Control List (ACL) to allow decrypting / sealing of the new balances
+        // Update LuxFHE Access Control List (ACL) to allow decrypting / sealing of the new balances
         if (euint64.unwrap(_encBalances[from]) != 0) {
             FHE.allowThis(_encBalances[from]);
             FHE.allow(_encBalances[from], from);

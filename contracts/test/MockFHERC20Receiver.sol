@@ -2,7 +2,7 @@
 pragma solidity ^0.8.25;
 
 import { IFHERC20Receiver } from "../interfaces/IFHERC20Receiver.sol";
-import { ebool, euint64, FHE } from "@luxfhe/cofhe-contracts/FHE.sol";
+import { ebool, euint64, FHE } from "@luxfi/contracts/fhe/FHE.sol";
 
 /**
  * @dev Mock contract to test FHERC20 receiver callback functionality

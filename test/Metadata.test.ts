@@ -1,6 +1,6 @@
 import hre, { ethers } from "hardhat";
 import { Metadata } from "../typechain-types";
-import { cofhejs, Encryptable } from "cofhejs/node";
+import { fhe, Encryptable } from "@luxfhe/sdk/node";
 import { appendMetadata } from "./metadata";
 import { expect } from "chai";
 
@@ -19,7 +19,7 @@ describe("Metadata", function () {
     const [owner, bob, alice, eve] = await ethers.getSigners();
     const { metadata } = await deployContracts();
 
-    await hre.cofhe.initializeWithHardhatSigner(owner);
+    await hre.fhe.initializeWithHardhatSigner(owner);
 
     return { owner, bob, alice, eve, metadata };
   }
@@ -28,7 +28,7 @@ describe("Metadata", function () {
     it("euint8", async function () {
       const { metadata } = await setupFixture();
 
-      const [inEuint8] = await hre.cofhe.expectResultSuccess(await cofhejs.encrypt([Encryptable.uint8(5n)]));
+      const [inEuint8] = await hre.fhe.expectResultSuccess(await fhe.encrypt([Encryptable.uint8(5n)]));
       const inEuint8Hash = inEuint8.ctHash;
       await metadata.addEuint8Metadata(inEuint8);
 

@@ -1,6 +1,6 @@
 import hre, { ethers } from "hardhat";
 import { FHERC20_Harness, MockVault } from "../typechain-types";
-import { cofhejs, Encryptable } from "cofhejs/node";
+import { fhe, Encryptable } from "@luxfhe/sdk/node";
 import { expect } from "chai";
 import { expectFHERC20BalancesChange, prepExpectFHERC20BalancesChange, tick, ticksToIndicated } from "./utils";
 
@@ -25,7 +25,7 @@ describe("MockVault (confidentialTransferFrom)", function () {
     const [owner, bob, alice, eve] = await ethers.getSigners();
     const { XFHE, Vault } = await deployContracts();
 
-    await hre.cofhe.initializeWithHardhatSigner(owner);
+    await hre.fhe.initializeWithHardhatSigner(owner);
 
     // Give bob and alice XFHE
     const mintValue = ethers.parseEther("10");
@@ -45,8 +45,8 @@ describe("MockVault (confidentialTransferFrom)", function () {
 
       // Encrypt transfer value
       const transferValue = ethers.parseEther("1");
-      const encTransferResult = await cofhejs.encrypt([Encryptable.uint64(transferValue)] as const);
-      const [encTransferInput] = await hre.cofhe.expectResultSuccess(encTransferResult);
+      const encTransferResult = await fhe.encrypt([Encryptable.uint64(transferValue)] as const);
+      const [encTransferInput] = await hre.fhe.expectResultSuccess(encTransferResult);
 
       // Success - Bob -> Vault
 
@@ -76,7 +76,7 @@ describe("MockVault (confidentialTransferFrom)", function () {
 
       // Bob Vault Balance
       const bobBalance = await Vault.balances(bob.address);
-      await hre.cofhe.mocks.expectPlaintext(bobBalance, transferValue);
+      await hre.fhe.mocks.expectPlaintext(bobBalance, transferValue);
     });
   });
 });
