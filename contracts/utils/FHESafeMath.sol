@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import { FHE, ebool, euint64 } from "@luxfhe/cofhe-contracts/FHE.sol";
+import { FHE, ebool, euint64 } from "@luxfi/contracts/fhe/FHE.sol";
 
 /**
  * @dev Library providing safe arithmetic operations for encrypted values

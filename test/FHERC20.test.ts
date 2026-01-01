@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import hre, { ethers } from "hardhat";
 import { FHERC20_Harness } from "../typechain-types";
-import { cofhejs, Encryptable } from "cofhejs/node";
+import { fhe, Encryptable } from "@luxfhe/sdk/node";
 import { expectFHERC20BalancesChange, prepExpectFHERC20BalancesChange, ticksToIndicated, tick } from "./utils";
 import { ZeroAddress } from "ethers";
 
@@ -20,7 +20,7 @@ describe("FHERC20", function () {
     const [owner, bob, alice, eve] = await ethers.getSigners();
     const { XFHE } = await deployContracts();
 
-    await hre.cofhe.initializeWithHardhatSigner(owner);
+    await hre.fhe.initializeWithHardhatSigner(owner);
 
     return { owner, bob, alice, eve, XFHE };
   }
@@ -91,13 +91,13 @@ describe("FHERC20", function () {
         await ticksToIndicated(XFHE, 5001n),
         "Total indicated supply increases",
       );
-      await hre.cofhe.mocks.expectPlaintext(await XFHE.confidentialTotalSupply(), value);
+      await hre.fhe.mocks.expectPlaintext(await XFHE.confidentialTotalSupply(), value);
 
       // 2nd TX, indicated + 1, true + 1e18
 
       await prepExpectFHERC20BalancesChange(XFHE, bob.address);
 
-      await hre.cofhe.mocks.withLogs("XFHE.mint()", async () => {
+      await hre.fhe.mocks.withLogs("XFHE.mint()", async () => {
         await expect(XFHE.mint(bob.address, value))
           .to.emit(XFHE, "Transfer")
           .withArgs(ZeroAddress, bob.address, await tick(XFHE));
@@ -130,7 +130,7 @@ describe("FHERC20", function () {
         await ticksToIndicated(XFHE, 5001n),
         "Total indicated supply is 0.5001",
       );
-      await hre.cofhe.mocks.expectPlaintext(await XFHE.confidentialTotalSupply(), mintValue);
+      await hre.fhe.mocks.expectPlaintext(await XFHE.confidentialTotalSupply(), mintValue);
 
       await prepExpectFHERC20BalancesChange(XFHE, bob.address);
 
@@ -139,7 +139,7 @@ describe("FHERC20", function () {
         .withArgs(bob.address, ZeroAddress, await tick(XFHE));
 
       await expectFHERC20BalancesChange(XFHE, bob.address, -1n * (await ticksToIndicated(XFHE, 1n)), -1n * burnValue);
-      await hre.cofhe.mocks.expectPlaintext(await XFHE.confidentialTotalSupply(), mintValue - burnValue);
+      await hre.fhe.mocks.expectPlaintext(await XFHE.confidentialTotalSupply(), mintValue - burnValue);
 
       expect(await XFHE.totalSupply()).to.equal(
         await ticksToIndicated(XFHE, 5000n),
@@ -220,13 +220,13 @@ describe("FHERC20", function () {
       await XFHE.mint(bob, mintValue);
       await XFHE.mint(alice, mintValue);
 
-      // Initialize bob in cofhejs
-      await hre.cofhe.expectResultSuccess(await hre.cofhe.initializeWithHardhatSigner(bob));
+      // Initialize bob in fhe
+      await hre.fhe.expectResultSuccess(await hre.fhe.initializeWithHardhatSigner(bob));
 
       // Encrypt transfer value
       const transferValueRaw = ethers.parseEther("1");
-      const encTransferResult = await cofhejs.encrypt([Encryptable.uint64(transferValueRaw)] as const);
-      const [encTransferInput] = await hre.cofhe.expectResultSuccess(encTransferResult);
+      const encTransferResult = await fhe.encrypt([Encryptable.uint64(transferValueRaw)] as const);
+      const [encTransferInput] = await hre.fhe.expectResultSuccess(encTransferResult);
 
       // encTransfer
 
@@ -258,8 +258,8 @@ describe("FHERC20", function () {
 
       // Encrypt transfer value
       const transferValueRaw = ethers.parseEther("1");
-      const encTransferResult = await cofhejs.encrypt([Encryptable.uint64(transferValueRaw)] as const);
-      const [encTransferInput] = await hre.cofhe.expectResultSuccess(encTransferResult);
+      const encTransferResult = await fhe.encrypt([Encryptable.uint64(transferValueRaw)] as const);
+      const [encTransferInput] = await hre.fhe.expectResultSuccess(encTransferResult);
 
       // encTransfer (reverts)
       await expect(
@@ -320,8 +320,8 @@ describe("FHERC20", function () {
 
       // Encrypt transfer value
       const transferValue = ethers.parseEther("1");
-      const encTransferResult = await cofhejs.encrypt([Encryptable.uint64(transferValue)] as const);
-      const [encTransferInput] = await hre.cofhe.expectResultSuccess(encTransferResult);
+      const encTransferResult = await fhe.encrypt([Encryptable.uint64(transferValue)] as const);
+      const [encTransferInput] = await hre.fhe.expectResultSuccess(encTransferResult);
 
       return { XFHE, bob, alice, eve, encTransferInput, transferValue };
     };
@@ -487,8 +487,8 @@ describe("FHERC20", function () {
 
       // Encrypt transfer value
       const transferValue = ethers.parseEther("1");
-      const encTransferResult = await cofhejs.encrypt([Encryptable.uint64(transferValue)] as const);
-      const [encTransferInput] = await hre.cofhe.expectResultSuccess(encTransferResult);
+      const encTransferResult = await fhe.encrypt([Encryptable.uint64(transferValue)] as const);
+      const [encTransferInput] = await hre.fhe.expectResultSuccess(encTransferResult);
 
       return { XFHE, bob, alice, eve, receiver, encTransferInput, transferValue };
     };
@@ -617,8 +617,8 @@ describe("FHERC20", function () {
 
       // Encrypt transfer value
       const transferValue = ethers.parseEther("1");
-      const encTransferResult = await cofhejs.encrypt([Encryptable.uint64(transferValue)] as const);
-      const [encTransferInput] = await hre.cofhe.expectResultSuccess(encTransferResult);
+      const encTransferResult = await fhe.encrypt([Encryptable.uint64(transferValue)] as const);
+      const [encTransferInput] = await hre.fhe.expectResultSuccess(encTransferResult);
 
       return { XFHE, bob, alice, eve, receiver, encTransferInput, transferValue };
     };

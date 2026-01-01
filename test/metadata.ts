@@ -1,4 +1,4 @@
-import { FheTypes } from "cofhejs/node";
+import { FheTypes } from "@luxfhe/sdk/node";
 
 // Reserve 2 bytes for metadata (clears last 2 bytes of 256-bit word)
 const HASH_MASK_FOR_METADATA = (1n << 256n) - 1n - 0xffffn; // 0xffff = 2^16 - 1

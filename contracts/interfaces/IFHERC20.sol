@@ -5,7 +5,7 @@ pragma solidity ^0.8.25;
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
-import { euint64, InEuint64 } from "@luxfhe/cofhe-contracts/FHE.sol";
+import { euint64, Euint64 } from "@luxfi/contracts/fhe/FHE.sol";
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -26,7 +26,7 @@ import { euint64, InEuint64 } from "@luxfhe/cofhe-contracts/FHE.sol";
  * applications.
  *
  * Note: This FHERC20 does not include FHE operations, and is intended to decouple the
- * frontend work from the active CoFHE (FHE Coprocessor) work during development and auditing.
+ * frontend work from the active LuxFHE (FHE Coprocessor) work during development and auditing.
  */
 interface IFHERC20 is IERC20, IERC20Metadata {
     /**
@@ -162,15 +162,15 @@ interface IFHERC20 is IERC20, IERC20Metadata {
     /**
      * @dev See {IERC20-transfer}.
      *
-     * Intended to be used as a EOA call with an encrypted input `InEuint64 inValue`.
+     * Intended to be used as a EOA call with an encrypted input `Euint64 inValue`.
      *
      * Requirements:
      *
      * - `to` cannot be the zero address.
      * - the caller must have a balance of at least `value`.
-     * - `inValue` must be a `InEuint164` to preserve confidentiality.
+     * - `inValue` must be a `Euint164` to preserve confidentiality.
      */
-    function confidentialTransfer(address to, InEuint64 memory inValue) external returns (euint64 transferred);
+    function confidentialTransfer(address to, Euint64 memory inValue) external returns (euint64 transferred);
 
     /**
      * @dev See {IERC20-transfer}.
@@ -199,14 +199,14 @@ interface IFHERC20 is IERC20, IERC20Metadata {
     function confidentialTransferFrom(
         address from,
         address to,
-        InEuint64 memory inValues
+        Euint64 memory inValues
     ) external returns (euint64 transferred);
 
     function confidentialTransferFrom(address from, address to, euint64 value) external returns (euint64 transferred);
 
     function confidentialTransferAndCall(
         address to,
-        InEuint64 memory inValue,
+        Euint64 memory inValue,
         bytes calldata data
     ) external returns (euint64 transferred);
 
@@ -219,7 +219,7 @@ interface IFHERC20 is IERC20, IERC20Metadata {
     function confidentialTransferFromAndCall(
         address from,
         address to,
-        InEuint64 memory inValue,
+        Euint64 memory inValue,
         bytes calldata data
     ) external returns (euint64 transferred);
 

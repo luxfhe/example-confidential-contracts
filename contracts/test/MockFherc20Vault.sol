@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.25;
 
-import { FHE, InEuint64, euint64 } from "@luxfhe/cofhe-contracts/FHE.sol";
+import { FHE, Euint64, euint64 } from "@luxfi/contracts/fhe/FHE.sol";
 import { IFHERC20 } from "../interfaces/IFHERC20.sol";
 import { FHERC20Wrapper } from "../FHERC20Wrapper.sol";
 
@@ -14,7 +14,7 @@ contract MockFherc20Vault {
         fherc20 = IFHERC20(fherc20_);
     }
 
-    function deposit(InEuint64 memory inValue) public {
+    function deposit(Euint64 memory inValue) public {
         euint64 value = FHE.asEuint64(inValue);
         FHE.allow(value, address(fherc20));
         fherc20.confidentialTransferFrom(msg.sender, address(this), value);
