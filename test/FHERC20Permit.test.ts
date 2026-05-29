@@ -14,7 +14,7 @@ describe("FHERC20Permit", function () {
     const XFHE = (await XFHEFactory.deploy("Unknown FHERC20", "XFHE", 18)) as FHERC20Permit_Harness;
     await XFHE.waitForDeployment();
 
-    // Initialize CoFHE
+    // Initialize TorusEVM coprocessor
     await hre.fhe.initializeWithHardhatSigner(owner);
 
     return { XFHE, owner, bob, alice, eve };
